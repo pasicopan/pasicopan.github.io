@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>react-quill-image-uploader | pasico 的idea</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="a plugin for react-quill which can upload multi image and remember the image url histroy  github: https://github.com/pasicopan/react-quill-image-uploader  click or drag an image into “click or drag” a">
+<meta name="keywords" content="react,quill">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react-quill-image-uploader">
+<meta property="og:url" content="http://paisco.cn/2018/12/28/react-quill-image-uploader.html">
+<meta property="og:site_name" content="pasico 的idea">
+<meta property="og:description" content="a plugin for react-quill which can upload multi image and remember the image url histroy  github: https://github.com/pasicopan/react-quill-image-uploader  click or drag an image into “click or drag” a">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://paisco.cn/2018/12/28/react-quill-image-uploader/screenshot.jpg">
+<meta property="og:updated_time" content="2019-05-08T01:20:05.934Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react-quill-image-uploader">
+<meta name="twitter:description" content="a plugin for react-quill which can upload multi image and remember the image url histroy  github: https://github.com/pasicopan/react-quill-image-uploader  click or drag an image into “click or drag” a">
+<meta name="twitter:image" content="http://paisco.cn/2018/12/28/react-quill-image-uploader/screenshot.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="pasico 的idea" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+
+  <body>
+    <div id="container">
+      <div id="wrap">
+        <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">pasico 的idea</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://paisco.cn"></form>
+      </div>
+    </div>
+  </div>
+</header>
+          <div class="outer">
+            <section id="main">
+              <article id="post-react-quill-image-uploader" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/28/react-quill-image-uploader.html" class="article-date">
+  <time datetime="2018-12-28T10:52:13.000Z" itemprop="datePublished">2018-12-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      react-quill-image-uploader
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>a plugin for react-quill which can upload multi image and remember the image url histroy</p>
+<img src="/2018/12/28/react-quill-image-uploader/screenshot.jpg" title="screenshot">
+<p>github: <a href="https://github.com/pasicopan/react-quill-image-uploader" target="_blank" rel="noopener">https://github.com/pasicopan/react-quill-image-uploader</a></p>
+<ul>
+<li>click or drag an image into “click or drag” area, then plugin will call uploadCallback and wait for the promise</li>
+<li>plugin will remember the image url which is saved</li>
+<li>click the image preview, the plugin will insert the image(width=100%) into the editor</li>
+<li>drag the toolbar of the plugin and move where you want</li>
+</ul>
+<h1 id="how-to-install"><a href="#how-to-install" class="headerlink" title="how to install"></a>how to install</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i react-quill-image-uploader</span><br><span class="line"><span class="comment">// yarn add react-quill-image-uploader</span></span><br></pre></td></tr></table></figure>
+<h1 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h1><p>demo: ./demo/index.html <a href="https://github.com/pasicopan/react-quill-image-uploader/blob/dev/demo/index.html" title="Demo" target="_blank" rel="noopener">Demo</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ReactQuill <span class="keyword">from</span> <span class="string">'react-quill'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'react-quill/dist/quill.snow.css'</span></span><br><span class="line"><span class="keyword">import</span> ReactQuillImageUploader,&#123;saveImageSrc&#125; <span class="keyword">from</span> <span class="string">'react-quill-image-uploader'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  modules = &#123;</span><br><span class="line">    toolbar: &#123;</span><br><span class="line">       container: [</span><br><span class="line">        [ <span class="string">'bold'</span>, <span class="string">'italic'</span>, <span class="string">'underline'</span>, <span class="string">'strike'</span> ],</span><br><span class="line">        [ <span class="string">'image'</span> ]</span><br><span class="line">      ],</span><br><span class="line">      handlers: &#123;</span><br><span class="line">        <span class="string">'image'</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> &#123;clientX,<span class="attr">y</span>:clientY &#125; = <span class="built_in">window</span>.event</span><br><span class="line">          <span class="keyword">const</span> position = &#123;<span class="attr">x</span>:clientX,<span class="attr">y</span>:clientY&#125;<span class="comment">// position the plugin to show</span></span><br><span class="line">          <span class="keyword">this</span>.ReactQuillImageUploaderRef &amp;&amp; <span class="keyword">this</span>.ReactQuillImageUploaderRef.toggle(position) <span class="comment">// show or hide the plugin</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  componentDidMount () &#123;</span><br><span class="line">		<span class="keyword">this</span>.quill = <span class="keyword">this</span>.quillRef &amp;&amp; <span class="keyword">this</span>.quillRef.getEditor()</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; <span class="attr">quill</span>: <span class="keyword">this</span>.quill &#125;)</span><br><span class="line">    <span class="comment">// import &#123;saveImageSrc&#125; from 'react-quill-image-uploader', call saveImageSrc('https://iph.href.lu/100x100')</span></span><br><span class="line">    <span class="comment">// or</span></span><br><span class="line">    <span class="comment">// &lt;script&gt; call </span></span><br><span class="line">    ReactQuillImageUploader.saveImageSrc(<span class="string">'https://iph.href.lu/100x100'</span>) <span class="comment">// save image url to plugin history manually</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render () &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; modules, className = <span class="string">''</span>, placeholder = <span class="string">'write here..'</span> &#125; = <span class="keyword">this</span>.props</span><br><span class="line">    <span class="keyword">const</span> &#123; quill=&#123;&#125; &#125; = <span class="keyword">this</span>.state</span><br><span class="line">    <span class="keyword">return</span> (&lt;div&gt;</span><br><span class="line">      &lt;ReactQuill</span><br><span class="line">        ref=&#123;(el) =&gt; &#123; this.quillRef = el; &#125;&#125;</span><br><span class="line">        placeholder=&#123;placeholder&#125;</span><br><span class="line">        modules=&#123;modules || this.modules&#125;</span><br><span class="line">        className=&#123;className&#125;/&gt;</span><br><span class="line">      &lt;ReactQuillImageUploader ref=&#123;(el) =&gt; &#123; this.ReactQuillImageUploaderRef = el &#125;&#125; quill=&#123;this.state.quill&#125; uploadCallback=&#123;uploadImageCallBack&#125; /&gt;</span><br><span class="line">    &lt;/div&gt;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">async function uploadImageCallBack (file) &#123;</span><br><span class="line">  // post file</span><br><span class="line">  return Promise.resolve(&#123;</span><br><span class="line">    data: &#123;</span><br><span class="line">      link:'https://iph.href.lu/200x200'</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <h3>原创文章，转载必须声明出处!</h3>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://paisco.cn/2018/12/28/react-quill-image-uploader.html" data-id="cjvejigzm000dz4uimqsc9ofe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/quill/">quill</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/18/compress-scroll-data.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          压缩页面滚动坐标的数据
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/12/19/a-login-feature.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">a login feature</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+            </section>
+            
+              <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/mistake/">mistake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/quill/">quill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/业务思考/">业务思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-优化/">算法 优化</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/mistake/" style="font-size: 10px;">mistake</a> <a href="/tags/quill/" style="font-size: 10px;">quill</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/业务思考/" style="font-size: 10px;">业务思考</a> <a href="/tags/算法-优化/" style="font-size: 10px;">算法 优化</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/08/hello-world.html">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/18/compress-scroll-data.html">压缩页面滚动坐标的数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/28/react-quill-image-uploader.html">react-quill-image-uploader</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/19/a-login-feature.html">a login feature</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/07/sad-for-NaN.html">一个key=&#34;NaN&#34; 引发的血案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+                
+          </div>
+          <footer id="footer">
+  
+        <div class="outer">
+          <div id="footer-info" class="inner">
+            &copy;
+            2019
+              pasico
+                <br> mail:
+                <a href="mailto:pasico@163.com" title="pasico@163.com">pasico@163.com</a>
+                  <br>
+                  Powered by
+                    <a href="http://hexo.io/" target="_blank">Hexo</a>
+          </div>
+        </div>
+          <script src="https://s19.cnzz.com/z_stat.php?id=1271870936&web_id=1271870936" language="JavaScript"></script>
+            </span>
+</footer>
+      </div>
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+        
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+    </div>
+  </body>
+
+  </html>

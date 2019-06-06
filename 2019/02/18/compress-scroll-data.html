@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>压缩页面滚动坐标的数据 | pasico 的idea</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言思考一下如何更好记录用户滚动页面的数据。    一个“高度是H=N（N&amp;lt;10)个屏幕高”手机网页为例，滚动范围大概是0~(N-1)*1000px 每个坐标需要S 个字符保存，0~(N-1)*1000px 就是 4个字符来保存 onscroll 每秒触发F次 每M 秒上传一次数据到服务器 页面有P 万人打开 平均每个人的停留时间是Ma 秒  那么每次发送给服务器的坐标数据R 和总发送数据R">
+<meta name="keywords" content="算法 优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="压缩页面滚动坐标的数据">
+<meta property="og:url" content="http://paisco.cn/2019/02/18/compress-scroll-data.html">
+<meta property="og:site_name" content="pasico 的idea">
+<meta property="og:description" content="前言思考一下如何更好记录用户滚动页面的数据。    一个“高度是H=N（N&amp;lt;10)个屏幕高”手机网页为例，滚动范围大概是0~(N-1)*1000px 每个坐标需要S 个字符保存，0~(N-1)*1000px 就是 4个字符来保存 onscroll 每秒触发F次 每M 秒上传一次数据到服务器 页面有P 万人打开 平均每个人的停留时间是Ma 秒  那么每次发送给服务器的坐标数据R 和总发送数据R">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-08T01:20:05.906Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="压缩页面滚动坐标的数据">
+<meta name="twitter:description" content="前言思考一下如何更好记录用户滚动页面的数据。    一个“高度是H=N（N&amp;lt;10)个屏幕高”手机网页为例，滚动范围大概是0~(N-1)*1000px 每个坐标需要S 个字符保存，0~(N-1)*1000px 就是 4个字符来保存 onscroll 每秒触发F次 每M 秒上传一次数据到服务器 页面有P 万人打开 平均每个人的停留时间是Ma 秒  那么每次发送给服务器的坐标数据R 和总发送数据R">
+  
+    <link rel="alternate" href="/atom.xml" title="pasico 的idea" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+
+  <body>
+    <div id="container">
+      <div id="wrap">
+        <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">pasico 的idea</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://paisco.cn"></form>
+      </div>
+    </div>
+  </div>
+</header>
+          <div class="outer">
+            <section id="main">
+              <article id="post-compress-scroll-data" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/18/compress-scroll-data.html" class="article-date">
+  <time datetime="2019-02-18T02:11:48.000Z" itemprop="datePublished">2019-02-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      压缩页面滚动坐标的数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>思考一下如何更好记录用户滚动页面的数据。  </p>
+<ul>
+<li>一个“高度是H=N（N&lt;10)个屏幕高”手机网页为例，滚动范围大概是0~(N-1)*1000px</li>
+<li>每个坐标需要S 个字符保存，0~(N-1)*1000px 就是 4个字符来保存</li>
+<li>onscroll 每秒触发F次</li>
+<li>每M 秒上传一次数据到服务器</li>
+<li>页面有P 万人打开</li>
+<li>平均每个人的停留时间是Ma 秒</li>
+</ul>
+<p>那么每次发送给服务器的坐标数据R 和总发送数据Ra分别是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">R = 4*M*F*P</span><br><span class="line">Ra = 4*Ma*F*P</span><br><span class="line">// 若</span><br><span class="line">M= 2</span><br><span class="line">Ma= 10</span><br><span class="line">F = 60</span><br><span class="line">S = 4</span><br><span class="line">// 则</span><br><span class="line">R = 4*2*60*P = 480（字符）*P</span><br><span class="line">Ra = 4*10*60*P = 2400（字符）*P</span><br></pre></td></tr></table></figure>
+<h3 id="优化F"><a href="#优化F" class="headerlink" title="优化F"></a>优化F</h3><p>不管服务器能不能撑住，前端总要先优化一下吧。先从F 入手，作为用户行为分析，不需要高质量电影一般60fps 吧。参考<a href="https://zh.wikipedia.org/wiki/%E5%B8%A7%E7%8E%87" target="_blank" rel="noopener">wiki帧率</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// 如果所看画面之帧率高于每秒约10至12帧的时候，就会认为是连贯的</span><br></pre></td></tr></table></figure></p>
+<p>如果我们只是想知道用户的滚动行为，大概知道滚动的过程，那么可以适当压缩到5~10帧。（后面通过一个demo 演示了验证）</p>
+<h4 id="优化S-思考一，直接保存坐标"><a href="#优化S-思考一，直接保存坐标" class="headerlink" title="优化S 思考一，直接保存坐标"></a>优化S 思考一，直接保存坐标</h4><p>如果滚动1000px 1001px 1002px 就保存1000,1001,1002 的话，S 需要再加一个分隔符，实际长度是2~5  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2Ma*F*P &lt;= Ra &lt;= 5Ma*F*P</span><br></pre></td></tr></table></figure>
+<h4 id="优化S-思考二，合并相同值，规范数据位和重复标记位的bit-长度"><a href="#优化S-思考二，合并相同值，规范数据位和重复标记位的bit-长度" class="headerlink" title="优化S 思考二，合并相同值，规范数据位和重复标记位的bit 长度"></a>优化S 思考二，合并相同值，规范数据位和重复标记位的bit 长度</h4><p>实际上，我们只用到0~1000，所以1001~1023可以当作0~22来使用，这样做的好处是，可以统一用5个bit 来保存数据并区分坐标值和重复标记位的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(Ma*F+1+3)*P &lt;= Ra &lt;= (2*Ma*F+1)*P</span><br></pre></td></tr></table></figure>
+<h4 id="优化S-思考三，二进制重新编码压缩"><a href="#优化S-思考三，二进制重新编码压缩" class="headerlink" title="优化S 思考三，二进制重新编码压缩"></a>优化S 思考三，二进制重新编码压缩</h4><p>原来记录’999’ 用了3个btye，现在用String.fromCharCode(parseInt(‘1111100111’,2)) 记录，只用了1.25 btye 就够了，差不多压缩了60%</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var numberArray = [&apos;0101&apos;,&apos;0102&apos;,&apos;999&apos;,1002&apos;] // 代表坐标101px 102px 999px 999px 999px </span><br><span class="line">var binaryArray = numberArray.map(n=&gt;&#123;</span><br><span class="line">  var r = n.toString(2)</span><br><span class="line">  while(r.length&lt;10)&#123;// 补足到10bit</span><br><span class="line">    r = &apos;0&apos; + r;</span><br><span class="line">  &#125;</span><br><span class="line">  return r</span><br><span class="line">  &#125;)</span><br><span class="line">var binaryA = binaryArray.join(&apos;&apos;).slice(0,8)</span><br><span class="line">var binaryString = String.fromCharCode(parseInt(binaryA,2)) // binaryString 将为是一个乱码的字符（不知道定位到哪里的Unicode 编码）</span><br></pre></td></tr></table></figure>
+<h4 id="综上"><a href="#综上" class="headerlink" title="综上"></a>综上</h4><p>写了个简易压缩demo（<a href="http://pasico.cn/numberbinary" target="_blank" rel="noopener">点这里</a>），可以得出压缩比</p>
+<h3 id="github"><a href="#github" class="headerlink" title="github"></a>github</h3><p><a href="https://github.com/pasicopan/numberbinary" target="_blank" rel="noopener">github</a></p>
+
+      
+      <h3>原创文章，转载必须声明出处!</h3>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://paisco.cn/2019/02/18/compress-scroll-data.html" data-id="cjvejigzh0008z4uigy380l5x" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法-优化/">算法 优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/05/08/hello-world.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/12/28/react-quill-image-uploader.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">react-quill-image-uploader</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+            </section>
+            
+              <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/mistake/">mistake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/quill/">quill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/业务思考/">业务思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-优化/">算法 优化</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/mistake/" style="font-size: 10px;">mistake</a> <a href="/tags/quill/" style="font-size: 10px;">quill</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/业务思考/" style="font-size: 10px;">业务思考</a> <a href="/tags/算法-优化/" style="font-size: 10px;">算法 优化</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/08/hello-world.html">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/18/compress-scroll-data.html">压缩页面滚动坐标的数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/28/react-quill-image-uploader.html">react-quill-image-uploader</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/19/a-login-feature.html">a login feature</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/07/sad-for-NaN.html">一个key=&#34;NaN&#34; 引发的血案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+                
+          </div>
+          <footer id="footer">
+  
+        <div class="outer">
+          <div id="footer-info" class="inner">
+            &copy;
+            2019
+              pasico
+                <br> mail:
+                <a href="mailto:pasico@163.com" title="pasico@163.com">pasico@163.com</a>
+                  <br>
+                  Powered by
+                    <a href="http://hexo.io/" target="_blank">Hexo</a>
+          </div>
+        </div>
+          <script src="https://s19.cnzz.com/z_stat.php?id=1271870936&web_id=1271870936" language="JavaScript"></script>
+            </span>
+</footer>
+      </div>
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+        
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+    </div>
+  </body>
+
+  </html>
