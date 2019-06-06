@@ -64,10 +64,10 @@
             <section id="main">
               
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-SLS" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/05/08/hello-world.html" class="article-date">
-  <time datetime="2019-05-08T01:20:05.907Z" itemprop="datePublished">2019-05-08</time>
+    <a href="/2019/06/06/SLS.html" class="article-date">
+  <time datetime="2019-06-06T06:35:05.000Z" itemprop="datePublished">2019-06-06</time>
 </a>
     
   </div>
@@ -78,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/08/hello-world.html">Hello World</a>
+      <a class="article-title" href="/2019/06/06/SLS.html">SLS-渐进增强微信小程序组件通讯能力</a>
     </h1>
   
 
@@ -86,21 +86,206 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>通过重新封装部分微信小程序原生 api，渐进增强小程序组件通讯能力。<a href="https://github.com/pasicopan/SLS" target="_blank" rel="noopener">github</a></p>
+<ul>
+<li>改写了 Page, Component, Behavior 组件。如果项目的是使用原生写的，那么只需要引入一个文件就能使用，旧代码不需要修改，原有功能不会被改变</li>
+<li>给 page 增加支持 Behavior</li>
+<li>给 page, Component 注入了$on, $emit, \$getCurrentPageComponentsByName 3 个方法</li>
+</ul>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>项目启动的时候选择了原生开发的方式，但项目变大后，引入和修改公共组件的工作变得越来越繁重，page 使用高度抽象的组件需要给每一个事件绑定方法。</li>
+<li>同级别的组件之间的互相调用都需要胶水代码</li>
+<li>越来越多的一次性的提示功能直接参杂到业务逻辑，加大维护成本</li>
+<li>项目已经有比较多的功能，不适合改用 wxpy, mpvue 等“整体迁移”方案</li>
+<li>没有足够试水条件，否则就去试试 didi 的<a href="https://github.com/didi/mpx" target="_blank" rel="noopener">mpx</a></li>
+</ul>
+<h3 id="wechat-share-snippet-微信小程序代码片段分享链接"><a href="#wechat-share-snippet-微信小程序代码片段分享链接" class="headerlink" title="wechat share snippet/ 微信小程序代码片段分享链接"></a>wechat share snippet/ 微信小程序代码片段分享链接</h3><ul>
+<li>注意：从 1.02.1812180 开始代码片段格式更换，旧版本 IDE 将无法导入该版本及之后的 IDE 分享的代码片段</li>
+<li>注意：IDE(1.02.1905151) 直接在 chrome 打开分享网址好像调不起开发工具，请手动在开发工具选择导入片段</li>
+<li><a href="https://developers.weixin.qq.com/s/Vf1TfVmH7B8E" target="_blank" rel="noopener">https://developers.weixin.qq.com/s/Vf1TfVmH7B8E</a></li>
+</ul>
+<h3 id="使用须知"><a href="#使用须知" class="headerlink" title="使用须知"></a>使用须知</h3><ul>
+<li>暂时只能支持 Page 构建页面。（官方是允许使用 Component 构建页面的）</li>
+<li>Page 只能在 onReady 后使用\$emit 等新 api</li>
+<li>Component 只能在 attached 后使用\$emit 等新 api</li>
+<li>Component 会自动给 methods 里面的公共方法注册事件\$on(<code>${componentName}.${methodName}</code>)，其他组件可以方便地通过\$emit(<code>${componentName}.${methodName}</code>) 直接调用组件内的公共方法；私有方法(‘_‘开头的方法名)则被忽略</li>
+<li>如果 component.attached 执行$emit, 这时候page.onReady 里面的$on 是还没有执行的，本工具会等 page.onReady 后再尝试触发一次\$emit</li>
+</ul>
+<h3 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.js</span></span><br><span class="line"><span class="comment">// 在App(&#123;&#125;) 前注入sls.js 文件</span></span><br><span class="line"><span class="keyword">const</span> SLS = <span class="built_in">require</span>(<span class="string">"sls.js"</span>)</span><br><span class="line"><span class="comment">// 执行 SLS(&#123;&#125;), 可以此时配置全局page 公共默认方法。具体page 的方法会覆盖这里的配置</span></span><br><span class="line">SLS(&#123;</span><br><span class="line">  onShareAppMessage() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      title: <span class="string">"公共分享标题"</span>,</span><br><span class="line">      path: <span class="string">`/index/index`</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">App(&#123;&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// page, pageA</span></span><br><span class="line">Page(&#123;</span><br><span class="line">  <span class="comment">// 要求至少在onReady 之后才能使用$on, $emit</span></span><br><span class="line">  onReady() &#123;</span><br><span class="line">    <span class="keyword">this</span>.$on(<span class="string">"pageA.onSay88"</span>, msg =&gt; &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"pageA.onSay88:"</span>, msg) <span class="comment">// baby</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  clickSayHello1() &#123;</span><br><span class="line">    <span class="keyword">this</span>.$emit(<span class="string">"componentA.sayHello"</span>, <span class="string">"baby"</span>) <span class="comment">// hello baby</span></span><br><span class="line">  &#125;,</span><br><span class="line">  clickSayHello2() &#123;</span><br><span class="line">    <span class="comment">// 也可以用以下方式直接调用sayHello</span></span><br><span class="line">    <span class="keyword">const</span> componentAList = <span class="keyword">this</span>.$getCurrentPageComponentsByName(<span class="string">"componentA"</span>)</span><br><span class="line">    componentAList[<span class="number">0</span>] &amp;&amp; componentAList[<span class="number">0</span>].sayHello(<span class="string">"sweet heart"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// component, componentA.js</span></span><br><span class="line">Component(&#123;</span><br><span class="line">  <span class="comment">// 要求至少在attached 之后才能使用$on, $emit</span></span><br><span class="line">  attached() &#123;</span><br><span class="line">    <span class="keyword">this</span>.$emit(<span class="string">"componentA.sayHello"</span>, <span class="string">"Sam"</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    <span class="comment">// 默认给component 的全部methods 执行this.$on(`$&#123;componentName&#125;.$&#123;methodName&#125;`,this.methodName)</span></span><br><span class="line">    sayHello(name) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`componentA.sayHello: <span class="subst">$&#123;name&#125;</span>`</span>) <span class="comment">// hello baby</span></span><br><span class="line">    &#125;,</span><br><span class="line">    callComponentB() &#123;</span><br><span class="line">      <span class="keyword">this</span>.$emit(<span class="string">"componentB.onCallComponentB"</span>, <span class="string">"Tom"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// component, componentB.js</span></span><br><span class="line">Component(&#123;</span><br><span class="line">  <span class="comment">// 要求至少在attached 之后才能使用$on, $emit</span></span><br><span class="line">  attached() &#123;</span><br><span class="line">    <span class="keyword">this</span>.$on(<span class="string">"componentB.onCallComponentB"</span>, name =&gt; &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"componentB.onCallComponentB:"</span>, name) <span class="comment">// Tom</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    say88(name) &#123;</span><br><span class="line">      <span class="keyword">this</span>.$emit(<span class="string">"pageA.onSay88"</span>, <span class="string">"Jack"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pageA.wxml</span></span><br><span class="line">&lt;view&gt;</span><br><span class="line">  &lt;componentA /&gt;</span><br><span class="line">  &lt;componentB /&gt;</span><br><span class="line">&lt;<span class="regexp">/view&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><ul>
+<li>重新封装 Page，每一个 page 实例的对应生命周期方法里面注入新 api ($emit, $on 等)；读取 Behaviors 字段，将 Behavior 内容复制到 page 里面</li>
+<li>重新封装 Component, 同理注入新 api ($emit, $on 等)</li>
+<li>重新封装 Behavior，根据实际调用的情况选择原生 Behavior Component 调用，或者选择非原生的给 Page 调用</li>
+</ul>
+<h3 id="api"><a href="#api" class="headerlink" title="api"></a>api</h3><ul>
+<li>$emit: 触发当前page 下使用$on 注册了的事件回调</li>
+<li>\$on: 在当前 page 注册事件回调</li>
+<li>\$getCurrentPageComponentsByName: 根据组件名字查找在当前 page 中的 component 实例。组件名字 可以是 Component 实例化的时候包含 name 字段。默认是文件名字（根据原生 Component.is 查询得到）</li>
+</ul>
 
       
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/05/08/hello-world.html" data-id="cjvejigzj0009z4uidd4gic4l" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/06/06/SLS.html" data-id="cjwkal10b0005f4uiybfhrdkn" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-AudioManager" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/06/AudioManager.html" class="article-date">
+  <time datetime="2019-06-06T06:32:13.000Z" itemprop="datePublished">2019-06-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/06/AudioManager.html">微信小程序 AudioManager</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>一款小程序原生代码编写的背景音乐播放管理器,统一了资源管理，按需记录播放进度，通过事件分发同步全部界面的播放状态<a href="https://github.com/pasicopan/AudioManager" target="_blank" rel="noopener">github</a></li>
+<li>小程序 sdk2.4.0 测试通过</li>
+</ul>
+<h3 id="screenshot"><a href="#screenshot" class="headerlink" title="screenshot"></a>screenshot</h3><p><img src="https://raw.githubusercontent.com/pasicopan/AudioManager/master/audiomanager.gif" alt="二级页面会同步一级页面的播放状态"><br>二级页面会同步一级页面的播放状态</p>
+<h3 id="wechat-share-snippet-微信小程序代码片段分享链接"><a href="#wechat-share-snippet-微信小程序代码片段分享链接" class="headerlink" title="wechat share snippet/ 微信小程序代码片段分享链接"></a>wechat share snippet/ 微信小程序代码片段分享链接</h3><ul>
+<li>注意：从 1.02.1812180 开始代码片段格式更换，旧版本 IDE 将无法导入该版本及之后的 IDE 分享的代码片段</li>
+<li>注意：IDE(1.02.1905151) 直接在 chrome 打开分享网址好像调不起开发工具，请手动在开发工具选择导入片段</li>
+<li>注意：IDE(1.02.1905151) 里面对音频源的限制好像加强了，测试的时候使用随便网上找到音频网址可能会播放不了。该 demo 使用的微信开发文档的音频案例</li>
+<li><a href="https://developers.weixin.qq.com/s/JA0W5Vmj728y" target="_blank" rel="noopener">https://developers.weixin.qq.com/s/JA0W5Vmj728y</a></li>
+</ul>
+<h3 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> AudioManager = <span class="built_in">require</span>(<span class="string">"../../audioManager.js"</span>) <span class="comment">// 引入核心文件audioManager.js</span></span><br><span class="line">Component(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    singer: <span class="string">""</span>, <span class="comment">// 歌手</span></span><br><span class="line">    title: <span class="string">""</span>, <span class="comment">// 标题</span></span><br><span class="line">    src: <span class="string">""</span>, <span class="comment">// 音频地址</span></span><br><span class="line">    duration: <span class="string">""</span> <span class="comment">// 音频时长</span></span><br><span class="line">  &#125;,</span><br><span class="line">  attached() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; singer, title, src, duration &#125; = <span class="keyword">this</span>.data</span><br><span class="line">    <span class="keyword">const</span> cAudio = AudioManager.initAudio(&#123;</span><br><span class="line">      singer, <span class="comment">// 歌手</span></span><br><span class="line">      title, <span class="comment">// 标题</span></span><br><span class="line">      src, <span class="comment">// 音频地址</span></span><br><span class="line">      duration <span class="comment">// 音频时长</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    togglePlayAudio() &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; title, src &#125; = <span class="keyword">this</span>.data</span><br><span class="line">      <span class="keyword">const</span> cAudio = AudioManager.setControllingAudio(&#123;</span><br><span class="line">        title,</span><br><span class="line">        src</span><br><span class="line">      &#125;)</span><br><span class="line">      <span class="keyword">if</span> (!cAudio) <span class="keyword">return</span></span><br><span class="line">      <span class="keyword">if</span> (cAudio.paused) &#123;</span><br><span class="line">        AudioManager.play()</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        AudioManager.pause()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="api"><a href="#api" class="headerlink" title="api"></a>api</h3><h4 id="AudioManager-音频管理器"><a href="#AudioManager-音频管理器" class="headerlink" title="AudioManager // 音频管理器"></a>AudioManager // 音频管理器</h4><ul>
+<li>setControllingAudio // 配置一个音频对象，并设置为当前控制中，会返回一个 Audio 对象</li>
+<li>getControllingAudio //会返回一个当前控制中 Audio 对象</li>
+<li>play // 播放当前控制中的音频</li>
+<li>replay // 从头播放当前控制中的音频</li>
+<li>pause // 暂停当前控制中的音频</li>
+</ul>
+<h4 id="Audio-音频对象"><a href="#Audio-音频对象" class="headerlink" title="Audio // 音频对象"></a>Audio // 音频对象</h4><ul>
+<li>reset// 重新配置一个音频播放对象</li>
+<li>addEvents(“onSwitch”, func)// 增加监听 [onSwitch:切换控制中的音频，onTimeUpdate, onPause, onPlay, onEnded]</li>
+<li>removeEvent(“onSwitch”, func)// 移除监听 [onSwitch:切换控制中的音频，onTimeUpdate, onPause, onPlay, onEnded]</li>
+</ul>
+
+      
+      <h3>原创文章，转载必须声明出处!</h3>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://paisco.cn/2019/06/06/AudioManager.html" data-id="cjwkal1090004f4uimpkefbwa" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-miniprogram-richtext" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/08/miniprogram-richtext.html" class="article-date">
+  <time datetime="2019-05-08T01:25:58.000Z" itemprop="datePublished">2019-05-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/08/miniprogram-richtext.html">小程序富文本处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在小程序实现富文本有很多种方法，常见就是 rich-text 和 wxparse 了。我们项目本来用着 rich-text 是没问题的，但最近一个需求是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">点击富文本里面的图片，显示该图片的预览效果</span><br></pre></td></tr></table></figure>
+<p>问题来了,rich-text 并不能给图片加点击事件。</p>
+<h2 id="方案假设"><a href="#方案假设" class="headerlink" title="方案假设"></a>方案假设</h2><img src="/2019/05/08/miniprogram-richtext/1.png" title="思路">
+<p>现在我们有 3 个方案了</p>
+<ol>
+<li>使用 webview</li>
+<li>使用 wxparse</li>
+<li>遍历文章，预算图片坐标，配合用户阅读时的滚动位置和点击坐标，计算哪张图片被点击</li>
+</ol>
+<h2 id="权衡利弊"><a href="#权衡利弊" class="headerlink" title="权衡利弊"></a>权衡利弊</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">指标/方案</th>
+<th style="text-align:center">webview</th>
+<th style="text-align:center">wxparse</th>
+<th style="text-align:center">预算坐标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">工作量</td>
+<td style="text-align:center">1 因为 webview 占用全屏幕，遮盖其他组件<br>所以需要在 html 重写原来小程序的其他组件和小程序端的胶水代码</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">遍历文章预算坐标非常费时费力，还要检查结果是否正确</td>
+</tr>
+<tr>
+<td style="text-align:center">优点</td>
+<td style="text-align:center">灵活和拓展性时 NO1</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">略</td>
+</tr>
+<tr>
+<td style="text-align:center">缺点</td>
+<td style="text-align:center">为了灵活和拓展而增加很多工作</td>
+<td style="text-align:center">不能覆盖全部的样式和标签</td>
+<td style="text-align:center">略</td>
+</tr>
+<tr>
+<td style="text-align:center">性能</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">略</td>
+</tr>
+<tr>
+<td style="text-align:center">体验</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">略</td>
+</tr>
+</tbody>
+</table>
+
+      
+      <h3>原创文章，转载必须声明出处!</h3>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://paisco.cn/2019/05/08/miniprogram-richtext.html" data-id="cjwkal10o000ef4uirbfg714g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -158,7 +343,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/02/18/compress-scroll-data.html" data-id="cjvejigzh0008z4uigy380l5x" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/02/18/compress-scroll-data.html" data-id="cjwkal10h000af4uipewj4kgz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法-优化/">算法 优化</a></li></ul>
@@ -208,7 +393,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/12/28/react-quill-image-uploader.html" data-id="cjvejigzm000dz4uimqsc9ofe" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/12/28/react-quill-image-uploader.html" data-id="cjwkal10s000if4ui6hzne5no" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/quill/">quill</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
@@ -318,7 +503,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/12/19/a-login-feature.html" data-id="cjvejigze0004z4ui0bj13fy6" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/12/19/a-login-feature.html" data-id="cjwkal10c0006f4uib96s6qi7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/业务思考/">业务思考</a></li></ul>
@@ -373,7 +558,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/11/07/sad-for-NaN.html" data-id="cjvejigzp000ez4uiubbfhuyn" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/11/07/sad-for-NaN.html" data-id="cjwkal10u000kf4uiqx5ddp9m" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mistake/">mistake</a></li></ul>
@@ -454,7 +639,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/08/15/miniprogram-swiper-effect.html" data-id="cjvejigzl000az4uigrmrdwic" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/08/15/miniprogram-swiper-effect.html" data-id="cjwkal10p000gf4uifcibbmki" class="article-share-link">Share</a>
       
       
     </footer>
@@ -520,7 +705,53 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/07/12/an-idea-about-build-vue-without-webpack.html" data-id="cjvejigzf0005z4ui8vlnxmae" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/07/12/an-idea-about-build-vue-without-webpack.html" data-id="cjwkal10f0009f4ui68sjnr9f" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/11/hello-world.html" class="article-date">
+  <time datetime="2018-07-11T08:08:43.000Z" itemprop="datePublished">2018-07-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/11/hello-world.html">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+      <h3>原创文章，转载必须声明出处!</h3>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://paisco.cn/2018/07/11/hello-world.html" data-id="cjwkal10k000cf4uipqg8is1x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -544,7 +775,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/mistake/">mistake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/quill/">quill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/业务思考/">业务思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-优化/">算法 优化</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/mistake/">mistake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/quill/">quill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/业务思考/">业务思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小程序/">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-优化/">算法 优化</a></li></ul>
     </div>
   </div>
 
@@ -554,7 +785,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/mistake/" style="font-size: 10px;">mistake</a> <a href="/tags/quill/" style="font-size: 10px;">quill</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/业务思考/" style="font-size: 10px;">业务思考</a> <a href="/tags/算法-优化/" style="font-size: 10px;">算法 优化</a>
+      <a href="/tags/mistake/" style="font-size: 10px;">mistake</a> <a href="/tags/quill/" style="font-size: 10px;">quill</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/业务思考/" style="font-size: 10px;">业务思考</a> <a href="/tags/小程序/" style="font-size: 20px;">小程序</a> <a href="/tags/算法-优化/" style="font-size: 10px;">算法 优化</a>
     </div>
   </div>
 
@@ -563,7 +794,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -576,7 +807,15 @@
       <ul>
         
           <li>
-            <a href="/2019/05/08/hello-world.html">Hello World</a>
+            <a href="/2019/06/06/SLS.html">SLS-渐进增强微信小程序组件通讯能力</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/06/AudioManager.html">微信小程序 AudioManager</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/08/miniprogram-richtext.html">小程序富文本处理</a>
           </li>
         
           <li>
@@ -585,14 +824,6 @@
         
           <li>
             <a href="/2018/12/28/react-quill-image-uploader.html">react-quill-image-uploader</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/19/a-login-feature.html">a login feature</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/07/sad-for-NaN.html">一个key=&#34;NaN&#34; 引发的血案</a>
           </li>
         
       </ul>

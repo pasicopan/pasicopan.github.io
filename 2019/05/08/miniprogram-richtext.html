@@ -5,15 +5,21 @@
   
 
   
-  <title>Archives | pasico 的idea</title>
+  <title>小程序富文本处理 | pasico 的idea</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="pasico 的idea">
-<meta property="og:url" content="http://paisco.cn/archives/index.html">
+  <meta name="description" content="问题在小程序实现富文本有很多种方法，常见就是 rich-text 和 wxparse 了。我们项目本来用着 rich-text 是没问题的，但最近一个需求是: 1点击富文本里面的图片，显示该图片的预览效果 问题来了,rich-text 并不能给图片加点击事件。 方案假设 现在我们有 3 个方案了  使用 webview 使用 wxparse 遍历文章，预算图片坐标，配合用户阅读时的滚动位置和点击坐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小程序富文本处理">
+<meta property="og:url" content="http://paisco.cn/2019/05/08/miniprogram-richtext.html">
 <meta property="og:site_name" content="pasico 的idea">
+<meta property="og:description" content="问题在小程序实现富文本有很多种方法，常见就是 rich-text 和 wxparse 了。我们项目本来用着 rich-text 是没问题的，但最近一个需求是: 1点击富文本里面的图片，显示该图片的预览效果 问题来了,rich-text 并不能给图片加点击事件。 方案假设 现在我们有 3 个方案了  使用 webview 使用 wxparse 遍历文章，预算图片坐标，配合用户阅读时的滚动位置和点击坐">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://paisco.cn/2019/05/08/miniprogram-richtext/1.png">
+<meta property="og:updated_time" content="2019-05-08T02:15:48.006Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="pasico 的idea">
+<meta name="twitter:title" content="小程序富文本处理">
+<meta name="twitter:description" content="问题在小程序实现富文本有很多种方法，常见就是 rich-text 和 wxparse 了。我们项目本来用着 rich-text 是没问题的，但最近一个需求是: 1点击富文本里面的图片，显示该图片的预览效果 问题来了,rich-text 并不能给图片加点击事件。 方案假设 现在我们有 3 个方案了  使用 webview 使用 wxparse 遍历文章，预算图片坐标，配合用户阅读时的滚动位置和点击坐">
+<meta name="twitter:image" content="http://paisco.cn/2019/05/08/miniprogram-richtext/1.png">
   
     <link rel="alternate" href="/atom.xml" title="pasico 的idea" type="application/atom+xml">
   
@@ -62,221 +68,113 @@
 </header>
           <div class="outer">
             <section id="main">
-              
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/06/06/SLS.html" class="archive-article-date">
-  <time datetime="2019-06-06T06:35:05.000Z" itemprop="datePublished">Jun 6</time>
+              <article id="post-miniprogram-richtext" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/08/miniprogram-richtext.html" class="article-date">
+  <time datetime="2019-05-08T01:25:58.000Z" itemprop="datePublished">2019-05-08</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/06/SLS.html">SLS-渐进增强微信小程序组件通讯能力</a>
+    <h1 class="article-title" itemprop="name">
+      小程序富文本处理
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/06/06/AudioManager.html" class="archive-article-date">
-  <time datetime="2019-06-06T06:32:13.000Z" itemprop="datePublished">Jun 6</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/06/AudioManager.html">微信小程序 AudioManager</a>
-    </h1>
-  
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在小程序实现富文本有很多种方法，常见就是 rich-text 和 wxparse 了。我们项目本来用着 rich-text 是没问题的，但最近一个需求是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">点击富文本里面的图片，显示该图片的预览效果</span><br></pre></td></tr></table></figure>
+<p>问题来了,rich-text 并不能给图片加点击事件。</p>
+<h2 id="方案假设"><a href="#方案假设" class="headerlink" title="方案假设"></a>方案假设</h2><img src="/2019/05/08/miniprogram-richtext/1.png" title="思路">
+<p>现在我们有 3 个方案了</p>
+<ol>
+<li>使用 webview</li>
+<li>使用 wxparse</li>
+<li>遍历文章，预算图片坐标，配合用户阅读时的滚动位置和点击坐标，计算哪张图片被点击</li>
+</ol>
+<h2 id="权衡利弊"><a href="#权衡利弊" class="headerlink" title="权衡利弊"></a>权衡利弊</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">指标/方案</th>
+<th style="text-align:center">webview</th>
+<th style="text-align:center">wxparse</th>
+<th style="text-align:center">预算坐标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">工作量</td>
+<td style="text-align:center">1 因为 webview 占用全屏幕，遮盖其他组件<br>所以需要在 html 重写原来小程序的其他组件和小程序端的胶水代码</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">遍历文章预算坐标非常费时费力，还要检查结果是否正确</td>
+</tr>
+<tr>
+<td style="text-align:center">优点</td>
+<td style="text-align:center">灵活和拓展性时 NO1</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">略</td>
+</tr>
+<tr>
+<td style="text-align:center">缺点</td>
+<td style="text-align:center">为了灵活和拓展而增加很多工作</td>
+<td style="text-align:center">不能覆盖全部的样式和标签</td>
+<td style="text-align:center">略</td>
+</tr>
+<tr>
+<td style="text-align:center">性能</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">略</td>
+</tr>
+<tr>
+<td style="text-align:center">体验</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">略</td>
+<td style="text-align:center">略</td>
+</tr>
+</tbody>
+</table>
 
-    </header>
+      
+      <h3>原创文章，转载必须声明出处!</h3>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://paisco.cn/2019/05/08/miniprogram-richtext.html" data-id="cjwkal10o000ef4uirbfg714g" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/05/08/miniprogram-richtext.html" class="archive-article-date">
-  <time datetime="2019-05-08T01:25:58.000Z" itemprop="datePublished">May 8</time>
-</a>
-      
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/08/miniprogram-richtext.html">小程序富文本处理</a>
-    </h1>
+    <a href="/2019/06/06/AudioManager.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          微信小程序 AudioManager
+        
+      </div>
+    </a>
   
+  
+    <a href="/2019/02/18/compress-scroll-data.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">压缩页面滚动坐标的数据</div>
+    </a>
+  
+</nav>
 
-    </header>
-  </div>
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/02/18/compress-scroll-data.html" class="archive-article-date">
-  <time datetime="2019-02-18T02:11:48.000Z" itemprop="datePublished">Feb 18</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/compress-scroll-data.html">压缩页面滚动坐标的数据</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/12/28/react-quill-image-uploader.html" class="archive-article-date">
-  <time datetime="2018-12-28T10:52:13.000Z" itemprop="datePublished">Dec 28</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/12/28/react-quill-image-uploader.html">react-quill-image-uploader</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/12/19/a-login-feature.html" class="archive-article-date">
-  <time datetime="2018-12-19T08:08:43.000Z" itemprop="datePublished">Dec 19</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/12/19/a-login-feature.html">a login feature</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/11/07/sad-for-NaN.html" class="archive-article-date">
-  <time datetime="2018-11-07T02:37:24.000Z" itemprop="datePublished">Nov 7</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/07/sad-for-NaN.html">一个key=&#34;NaN&#34; 引发的血案</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/08/15/miniprogram-swiper-effect.html" class="archive-article-date">
-  <time datetime="2018-08-15T10:22:54.000Z" itemprop="datePublished">Aug 15</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/15/miniprogram-swiper-effect.html">微信小程序 swiper 效果</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/07/12/an-idea-about-build-vue-without-webpack.html" class="archive-article-date">
-  <time datetime="2018-07-12T07:42:10.000Z" itemprop="datePublished">Jul 12</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/12/an-idea-about-build-vue-without-webpack.html">an-idea-about-build-vue-without-webpack</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/07/11/hello-world.html" class="archive-article-date">
-  <time datetime="2018-07-11T08:08:43.000Z" itemprop="datePublished">Jul 11</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/11/hello-world.html">Hello World</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
 
 
             </section>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>微信小程序 AudioManager | pasico 的idea</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一款小程序原生代码编写的背景音乐播放管理器,统一了资源管理，按需记录播放进度，通过事件分发同步全部界面的播放状态github 小程序 sdk2.4.0 测试通过  screenshot二级页面会同步一级页面的播放状态 wechat share snippet/ 微信小程序代码片段分享链接 注意：从 1.02.1812180 开始代码片段格式更换，旧版本 IDE 将无法导入该版本及之后的 IDE">
+<meta name="keywords" content="小程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序 AudioManager">
+<meta property="og:url" content="http://paisco.cn/2019/06/06/AudioManager.html">
+<meta property="og:site_name" content="pasico 的idea">
+<meta property="og:description" content="一款小程序原生代码编写的背景音乐播放管理器,统一了资源管理，按需记录播放进度，通过事件分发同步全部界面的播放状态github 小程序 sdk2.4.0 测试通过  screenshot二级页面会同步一级页面的播放状态 wechat share snippet/ 微信小程序代码片段分享链接 注意：从 1.02.1812180 开始代码片段格式更换，旧版本 IDE 将无法导入该版本及之后的 IDE">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://raw.githubusercontent.com/pasicopan/AudioManager/master/audiomanager.gif">
+<meta property="og:updated_time" content="2019-06-06T06:37:24.767Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信小程序 AudioManager">
+<meta name="twitter:description" content="一款小程序原生代码编写的背景音乐播放管理器,统一了资源管理，按需记录播放进度，通过事件分发同步全部界面的播放状态github 小程序 sdk2.4.0 测试通过  screenshot二级页面会同步一级页面的播放状态 wechat share snippet/ 微信小程序代码片段分享链接 注意：从 1.02.1812180 开始代码片段格式更换，旧版本 IDE 将无法导入该版本及之后的 IDE">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/pasicopan/AudioManager/master/audiomanager.gif">
+  
+    <link rel="alternate" href="/atom.xml" title="pasico 的idea" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+
+  <body>
+    <div id="container">
+      <div id="wrap">
+        <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">pasico 的idea</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://paisco.cn"></form>
+      </div>
+    </div>
+  </div>
+</header>
+          <div class="outer">
+            <section id="main">
+              <article id="post-AudioManager" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/06/AudioManager.html" class="article-date">
+  <time datetime="2019-06-06T06:32:13.000Z" itemprop="datePublished">2019-06-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      微信小程序 AudioManager
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>一款小程序原生代码编写的背景音乐播放管理器,统一了资源管理，按需记录播放进度，通过事件分发同步全部界面的播放状态<a href="https://github.com/pasicopan/AudioManager" target="_blank" rel="noopener">github</a></li>
+<li>小程序 sdk2.4.0 测试通过</li>
+</ul>
+<h3 id="screenshot"><a href="#screenshot" class="headerlink" title="screenshot"></a>screenshot</h3><p><img src="https://raw.githubusercontent.com/pasicopan/AudioManager/master/audiomanager.gif" alt="二级页面会同步一级页面的播放状态"><br>二级页面会同步一级页面的播放状态</p>
+<h3 id="wechat-share-snippet-微信小程序代码片段分享链接"><a href="#wechat-share-snippet-微信小程序代码片段分享链接" class="headerlink" title="wechat share snippet/ 微信小程序代码片段分享链接"></a>wechat share snippet/ 微信小程序代码片段分享链接</h3><ul>
+<li>注意：从 1.02.1812180 开始代码片段格式更换，旧版本 IDE 将无法导入该版本及之后的 IDE 分享的代码片段</li>
+<li>注意：IDE(1.02.1905151) 直接在 chrome 打开分享网址好像调不起开发工具，请手动在开发工具选择导入片段</li>
+<li>注意：IDE(1.02.1905151) 里面对音频源的限制好像加强了，测试的时候使用随便网上找到音频网址可能会播放不了。该 demo 使用的微信开发文档的音频案例</li>
+<li><a href="https://developers.weixin.qq.com/s/JA0W5Vmj728y" target="_blank" rel="noopener">https://developers.weixin.qq.com/s/JA0W5Vmj728y</a></li>
+</ul>
+<h3 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> AudioManager = <span class="built_in">require</span>(<span class="string">"../../audioManager.js"</span>) <span class="comment">// 引入核心文件audioManager.js</span></span><br><span class="line">Component(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    singer: <span class="string">""</span>, <span class="comment">// 歌手</span></span><br><span class="line">    title: <span class="string">""</span>, <span class="comment">// 标题</span></span><br><span class="line">    src: <span class="string">""</span>, <span class="comment">// 音频地址</span></span><br><span class="line">    duration: <span class="string">""</span> <span class="comment">// 音频时长</span></span><br><span class="line">  &#125;,</span><br><span class="line">  attached() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; singer, title, src, duration &#125; = <span class="keyword">this</span>.data</span><br><span class="line">    <span class="keyword">const</span> cAudio = AudioManager.initAudio(&#123;</span><br><span class="line">      singer, <span class="comment">// 歌手</span></span><br><span class="line">      title, <span class="comment">// 标题</span></span><br><span class="line">      src, <span class="comment">// 音频地址</span></span><br><span class="line">      duration <span class="comment">// 音频时长</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    togglePlayAudio() &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; title, src &#125; = <span class="keyword">this</span>.data</span><br><span class="line">      <span class="keyword">const</span> cAudio = AudioManager.setControllingAudio(&#123;</span><br><span class="line">        title,</span><br><span class="line">        src</span><br><span class="line">      &#125;)</span><br><span class="line">      <span class="keyword">if</span> (!cAudio) <span class="keyword">return</span></span><br><span class="line">      <span class="keyword">if</span> (cAudio.paused) &#123;</span><br><span class="line">        AudioManager.play()</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        AudioManager.pause()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="api"><a href="#api" class="headerlink" title="api"></a>api</h3><h4 id="AudioManager-音频管理器"><a href="#AudioManager-音频管理器" class="headerlink" title="AudioManager // 音频管理器"></a>AudioManager // 音频管理器</h4><ul>
+<li>setControllingAudio // 配置一个音频对象，并设置为当前控制中，会返回一个 Audio 对象</li>
+<li>getControllingAudio //会返回一个当前控制中 Audio 对象</li>
+<li>play // 播放当前控制中的音频</li>
+<li>replay // 从头播放当前控制中的音频</li>
+<li>pause // 暂停当前控制中的音频</li>
+</ul>
+<h4 id="Audio-音频对象"><a href="#Audio-音频对象" class="headerlink" title="Audio // 音频对象"></a>Audio // 音频对象</h4><ul>
+<li>reset// 重新配置一个音频播放对象</li>
+<li>addEvents(“onSwitch”, func)// 增加监听 [onSwitch:切换控制中的音频，onTimeUpdate, onPause, onPlay, onEnded]</li>
+<li>removeEvent(“onSwitch”, func)// 移除监听 [onSwitch:切换控制中的音频，onTimeUpdate, onPause, onPlay, onEnded]</li>
+</ul>
+
+      
+      <h3>原创文章，转载必须声明出处!</h3>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://paisco.cn/2019/06/06/AudioManager.html" data-id="cjwkal1090004f4uimpkefbwa" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/06/06/SLS.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SLS-渐进增强微信小程序组件通讯能力
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/08/miniprogram-richtext.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">小程序富文本处理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+            </section>
+            
+              <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/mistake/">mistake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/quill/">quill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/业务思考/">业务思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小程序/">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-优化/">算法 优化</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/mistake/" style="font-size: 10px;">mistake</a> <a href="/tags/quill/" style="font-size: 10px;">quill</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/业务思考/" style="font-size: 10px;">业务思考</a> <a href="/tags/小程序/" style="font-size: 20px;">小程序</a> <a href="/tags/算法-优化/" style="font-size: 10px;">算法 优化</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/06/SLS.html">SLS-渐进增强微信小程序组件通讯能力</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/06/AudioManager.html">微信小程序 AudioManager</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/08/miniprogram-richtext.html">小程序富文本处理</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/18/compress-scroll-data.html">压缩页面滚动坐标的数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/28/react-quill-image-uploader.html">react-quill-image-uploader</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+                
+          </div>
+          <footer id="footer">
+  
+        <div class="outer">
+          <div id="footer-info" class="inner">
+            &copy;
+            2019
+              pasico
+                <br> mail:
+                <a href="mailto:pasico@163.com" title="pasico@163.com">pasico@163.com</a>
+                  <br>
+                  Powered by
+                    <a href="http://hexo.io/" target="_blank">Hexo</a>
+          </div>
+        </div>
+          <script src="https://s19.cnzz.com/z_stat.php?id=1271870936&web_id=1271870936" language="JavaScript"></script>
+            </span>
+</footer>
+      </div>
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+        
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+    </div>
+  </body>
+
+  </html>
