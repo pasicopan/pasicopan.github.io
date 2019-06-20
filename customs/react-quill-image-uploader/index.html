@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+    <script src="https://unpkg.com/prop-types/prop-types.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/react-quill@latest/dist/react-quill.js"></script>
+    <script src="./react-quill-image-uploader.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/react-quill@1.0.0/dist/quill.core.css">
+    <link rel="stylesheet" href="https://unpkg.com/react-quill@1.0.0/dist/quill.snow.css">
+  </head>
+
+  <body>
+    <div id="example"></div>
+
+    <script type="text/babel">
+      // import ReactQuill, { Quill, Mixin, Toolbar } from 'react-quill'; // ES6
+      // import ReactQuillImageUploader,{saveImageSrc} from 'react-quill-image-uploader'
+      const ImageBlot = ReactQuill.Quill.import('formats/image');
+      const Parchment = ReactQuill.Quill.import('parchment');
+      class App extends React.Component {
+        state = {}
+        modules = {
+          toolbar: {
+            container: [["bold", "italic", "underline", "strike"], ["image"]],
+            handlers: {
+              image: () => {
+                const { clientX, y: clientY } = window.event
+                const position = { x: clientX, y: clientY }
+                this.ReactQuillImageUploaderRef &&
+                  this.ReactQuillImageUploaderRef.toggle(position)
+              }
+            }
+          }
+        }
+        componentDidMount() {
+          this.quill = this.quillRef && this.quillRef.getEditor()
+          console.log('this.quill.import=',this.quill.import);
+          this.quill.root.addEventListener('click', (ev) => {
+            // console.log('ev=',ev);
+            let image = Parchment.find(ev.target);
+            console.log('image=',image);
+
+            if (image instanceof ImageBlot) {
+              this.quill.setSelection(image.offset(this.quill.scroll), 1, 'user');
+            }
+          });
+          this.setState({ quill: this.quill })
+          // import {saveImageSrc} from 'react-quill-image-uploader', call saveImageSrc('https://iph.href.lu/100x100')
+          // or
+          // from version 0.0.1
+          // ReactQuillImageUploader.saveImageSrc("https://iph.href.lu/100x100")
+          // from version 0.0.4
+          ReactQuillImageUploader.saveImage({
+            name: "demo.jpg",
+            src: "https://iph.href.lu/100x100"
+          })
+        }
+        uploadImageCallBack = async (file, base64) => {
+          // submit file to server
+          let src = "https://iph.href.lu/200x200" // demo image src
+          if (base64) {
+            src = base64
+          }
+          // insertImg by hand
+          this.ReactQuillImageUploaderRef &&
+            this.ReactQuillImageUploaderRef.insertImg(src)
+
+          return Promise.resolve({
+            data: {
+              name: file.name || "",
+              link: src
+            }
+          })
+        }
+        render() {
+          const {
+            modules,
+            className = "",
+            placeholder = "write here.."
+          } = this.props
+          const { quill = {} } = this.state
+          return (
+            <div>
+              <ReactQuill
+                ref={el => {
+                  this.quillRef = el
+                }}
+                placeholder={placeholder}
+                modules={modules || this.modules}
+                className={className}
+              />
+              <ReactQuillImageUploader
+                ref={el => {
+                  this.ReactQuillImageUploaderRef = el
+                }}
+                quill={quill}
+                uploadCallback={this.uploadImageCallBack}
+              />
+            </div>
+          )
+        }
+      }
+      ReactDOM.render(<App />, document.getElementById("example"))
+    </script>
+  </body>
+</html>
