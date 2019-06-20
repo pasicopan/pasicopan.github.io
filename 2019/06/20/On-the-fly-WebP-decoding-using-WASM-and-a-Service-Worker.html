@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>[翻译]wasm+service worker 无感转换webp | pasico 的idea</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原文：On the fly WebP decoding using WASM and a Service Worker简单翻译，不喜勿喷   译者前言（原作者太牢骚，我先直接把他的成果github 地址放出来。github） 前言我将要给大家展示的一个小demo，是一个已经成功在chrome 和firefox 里面解码webp格式图片的demo。（原因是）libwebp 已经基于SDL 有了一些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[翻译]wasm+service worker 无感转换webp">
+<meta property="og:url" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker.html">
+<meta property="og:site_name" content="pasico 的idea">
+<meta property="og:description" content="原文：On the fly WebP decoding using WASM and a Service Worker简单翻译，不喜勿喷   译者前言（原作者太牢骚，我先直接把他的成果github 地址放出来。github） 前言我将要给大家展示的一个小demo，是一个已经成功在chrome 和firefox 里面解码webp格式图片的demo。（原因是）libwebp 已经基于SDL 有了一些">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/1.jpg">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/2.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/3.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/4.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/5.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/6.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/7.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/2.jpg">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/9.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/8.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/10.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/11.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/12.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/13.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/14.png">
+<meta property="og:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/15.png">
+<meta property="og:updated_time" content="2019-06-20T12:03:16.112Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[翻译]wasm+service worker 无感转换webp">
+<meta name="twitter:description" content="原文：On the fly WebP decoding using WASM and a Service Worker简单翻译，不喜勿喷   译者前言（原作者太牢骚，我先直接把他的成果github 地址放出来。github） 前言我将要给大家展示的一个小demo，是一个已经成功在chrome 和firefox 里面解码webp格式图片的demo。（原因是）libwebp 已经基于SDL 有了一些">
+<meta name="twitter:image" content="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="pasico 的idea" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+
+  <body>
+    <div id="container">
+      <div id="wrap">
+        <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">pasico 的idea</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://paisco.cn"></form>
+      </div>
+    </div>
+  </div>
+</header>
+          <div class="outer">
+            <section id="main">
+              <article id="post-On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker.html" class="article-date">
+  <time datetime="2019-06-20T06:23:13.000Z" itemprop="datePublished">2019-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [翻译]wasm+service worker 无感转换webp
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原文：<a href="https://medium.com/@kennethrohde/on-the-fly-webp-decoding-using-wasm-and-a-service-worker-33e519d8c21e" target="_blank" rel="noopener">On the fly WebP decoding using WASM and a Service Worker</a><br>简单翻译，不喜勿喷  </p>
+<h3 id="译者前言"><a href="#译者前言" class="headerlink" title="译者前言"></a>译者前言</h3><p>（原作者太牢骚，我先直接把他的成果github 地址放出来。<a href="https://github.com/kenchris/wasm-webp" target="_blank" rel="noopener">github</a>）</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>我将要给大家展示的一个小demo，是一个已经成功在chrome 和firefox 里面解码<code>webp</code>格式图片的demo。<br>（原因是）<a href="https://developers.google.com/speed/webp/docs/api" target="_blank" rel="noopener">libwebp</a> 已经基于<a href="https://zh.wikipedia.org/wiki/SDL" target="_blank" rel="noopener">SDL</a> 有了一些 <code>WASM</code> 实验性支持，这是<a href="https://emscripten.org/docs/" target="_blank" rel="noopener">emscripten</a>已经在 <code>canvas</code> 元素上所支持的。</p>
+<p>（只是基于<code>WASM</code>的解码工具）虽然已经工作得挺好了，但人们需要额外引入一些library 似乎还不够友好。通常还需要手动调用JavaScript function 去解码，如果想在css 里面使用就更难操作了。</p>
+<p>我非常兴奋地发现，<code>service worker</code> 里面可以使用 <code>WebAssembly</code>。（这样即使在css 里面也可以愉快地自动转码了）</p>
+<p>（略过作者一些牢骚和失败的尝试）  </p>
+<p>以下是在firefox 成功渲染的截图<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/1.jpg" title="render in firefox"></p>
+<h3 id="（正式开始）创建一个library"><a href="#（正式开始）创建一个library" class="headerlink" title="（正式开始）创建一个library"></a>（正式开始）创建一个library</h3><p><code>libwebp</code> 真的只是一些简单的<code>C</code> API<br><a href="https://developers.google.com/speed/webp/docs/api" target="_blank" rel="noopener">libwebp api doc</a><br>接下来就简单了，我要做的只是暴露两个方法出来就好，分别是<code>decode()</code>和 <code>getInfo()</code>，后者（getInfo）是非常有必要的，因为我需要知道图片的体积才能够正确地初始buffers。巴拉巴拉。。。</p>
+<img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/2.png" title="compiled">
+<p>需要用一些<code>CMake</code> 的工具还是有点麻烦的，还好我有朋友帮忙。（意思是编写<code>CMakeLists</code> 文件比较麻烦）<br>（以下是CMakeLists 截图）<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/3.png" title="CMakeLists"></p>
+<p>为了方便编译，我在<code>package.json</code> 加了编译命令，直接执行<code>npm run build</code> 就ok了。（mac，linux 用户福利，windows 用户我会在后文解析）<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/4.png" title="package json"></p>
+<p>现在我们已经有个library 了，我们还需要封装一下它，使之更好用，不需要人们去知道buffer，allocations 等麻烦的东西。</p>
+<p>接下来我们创建一个mini 的js library 叫做<code>webp-decoder.js</code>。这是一个可以在主线程和worker 线程都能使用的library。将会暴露出一个异步函数叫做<code>fetchWebPDecoder</code> 并返回一个<code>WebPDcoder</code> 对象和一些其他方法。</p>
+<p>（作者介绍了一些比较新的模块方法，和自己写了个加载js 文件的方法，不想翻译了）</p>
+<p>然后是开始写<code>service worker</code>的注册<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/5.png" title="service worker"></p>
+<p>然后是<code>webp-decoder.js</code> 的加载 <code>wasm.js</code> 的方法<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/6.png" title="webp decoder"></p>
+<img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/7.png" title="webpdecoder">
+<p>（重点知识终于来了，同时我深感自己翻译得很不好）<br><code>webpdecoder</code> 构造器需要一个<code>ArrayBuffer</code> 作为参数，我们将为此创建一个带类型的<code>array</code>，一个<code>Uint8Array</code> 作为<code>libwebp</code> 需要的<code>const uint8_t*</code> 指针。<br>我们需要把数据复制到<code>WebAssembly</code>的堆里面。具体做法就是使用<code>Emscripten</code> 提供的两个api <code>_malloc</code> 和<code>Module.HEAPU8.set()</code>，根据<code>byteLength</code> 去使用<code>_malloc</code> 申请需要的空间，然后使用<code>Module.HEAPU8.set()</code> 把数据复制过去。</p>
+<img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/2.jpg" title="cwrap">
+<img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/9.png" title="cwrap">
+<p>使用<code>cwrap</code>，我很容易就能从C 里面拿到想要的数据，例如version, 图片尺寸，宽高等</p>
+<img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/8.png" title="getInfo">
+<p>在js 方面，我们根据Emscripten <code>getInfo</code> 的结果，再一次初始化足够的内存空间</p>
+<img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/10.png" title="cwrap">
+<p>C 的内部也会做一些分配（内存）的操作，并返回<code>uint8_t</code>的buffer 值，然后我们需要转成<code>Uint8ClampedArray</code> 给js 使用。因为<code>ImageData</code> 只能用<code>Clamped</code> array，所以我们只能转成<code>Uint8ClampedArray</code>。</p>
+<img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/11.png" title="Clamped">
+<p>现在我们的代码就这样了。</p>
+<img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/12.png" title="decode">
+<p>解码后，我们将数据复制到js 这边，然后就可以释放原来的解码数据了</p>
+<p>解码后的数据并不是我们想要的，我们最后想要的其实是一个格式化为<code>image/png</code> 的<code>blob</code> 数据。我们还有一些小工作要做。我们创建一个的canvas，并使用相关api 进行转换。<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/13.png" title="toblob"><br>（如果想在worker 里面处理）我们可能需要一个叫做<a href="https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas" target="_blank" rel="noopener">OffscreenCanvas</a> 的实验性技术。具体chrome 和firefox 会有不同。</p>
+<p>好了！我们已经写好一个library 去解码 webp 图片！</p>
+<h3 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h3><p>看图吧，加载个图片，然后转为buffer，初始化解码器，使用canvas 转为blob，赋值给img 标签<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/14.png" title="use"></p>
+<p><code>service worker</code> 里面也类似，看图，注册好service worker，判断请求是不是一个webp 的GET 请求，是就拦截并另外进行下载和转码<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/15.png" title="use in service worker"></p>
+<p>（作者简单介绍了一下OffscreenCanvas 技术，不想翻译了）<br>（作者吐槽了一下，现在怎么都要用canvas 转一下才有效，好麻烦，希望以后有更简单的api，听说已经有提案了<a href="https://wicg.github.io/img-conversion/" target="_blank" rel="noopener">img-conversion</a>）</p>
+<p>最后，放代码了！（我已经提前给大家放了，哈哈哈哈）<a href="https://github.com/kenchris/wasm-webp" target="_blank" rel="noopener">github</a>）</p>
+<h3 id="提醒"><a href="#提醒" class="headerlink" title="提醒"></a>提醒</h3><p>如果要玩离屏canvas（OffscreenCanvas），记得在浏览器里面开启实验性功能，具体不说了。</p>
+<p>（然后作者感谢了另外一个人，他建议webp 转码为BMP 格式，这是一个没有压缩算法的格式，大大简化了webp 转码的复杂度）</p>
+<h2 id="译者补充"><a href="#译者补充" class="headerlink" title="译者补充"></a>译者补充</h2><p>windows 编译方法，，，待续。。。</p>
+<h3 id="squoosh"><a href="#squoosh" class="headerlink" title="squoosh"></a>squoosh</h3><p><a href="https://squoosh.app/" target="_blank" rel="noopener">squoosh</a> 里面也有 service worker+wasm 的方案，其中webp 的wasm 文件只有98k，而上面作者编译出来是121k。<br>squoosh 还有其他转码的wasm 文件，另外有机会再说</p>
+
+      
+      <h3>原创文章，转载必须声明出处!</h3>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker.html" data-id="cjx4a9ptk000y14uiveet01st" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/06/SLS.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">SLS-渐进增强微信小程序组件通讯能力</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+            </section>
+            
+              <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/quill/">quill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/业务思考/">业务思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小程序/">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法-优化/">算法 优化</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/quill/" style="font-size: 10px;">quill</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/业务思考/" style="font-size: 10px;">业务思考</a> <a href="/tags/小程序/" style="font-size: 20px;">小程序</a> <a href="/tags/算法-优化/" style="font-size: 10px;">算法 优化</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker.html">[翻译]wasm+service worker 无感转换webp</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/06/SLS.html">SLS-渐进增强微信小程序组件通讯能力</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/06/AudioManager.html">微信小程序 AudioManager</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/08/miniprogram-richtext.html">小程序富文本处理</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/18/compress-scroll-data.html">压缩页面滚动坐标的数据</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+                
+          </div>
+          <footer id="footer">
+  
+        <div class="outer">
+          <div id="footer-info" class="inner">
+            &copy;
+            2019
+              pasico
+                <br> mail:
+                <a href="mailto:pasico@163.com" title="pasico@163.com">pasico@163.com</a>
+                  <br>
+                  Powered by
+                    <a href="http://hexo.io/" target="_blank">Hexo</a>
+          </div>
+        </div>
+          <script src="https://s19.cnzz.com/z_stat.php?id=1271870936&web_id=1271870936" language="JavaScript"></script>
+            </span>
+</footer>
+      </div>
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+        
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+    </div>
+  </body>
+
+  </html>
