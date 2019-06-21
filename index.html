@@ -88,6 +88,7 @@
       
         <p>原文：<a href="https://medium.com/@kennethrohde/on-the-fly-webp-decoding-using-wasm-and-a-service-worker-33e519d8c21e" target="_blank" rel="noopener">On the fly WebP decoding using WASM and a Service Worker</a><br>简单翻译，不喜勿喷  </p>
 <h3 id="译者前言"><a href="#译者前言" class="headerlink" title="译者前言"></a>译者前言</h3><p>（原作者太牢骚，我先直接把他的成果github 地址放出来。<a href="https://github.com/kenchris/wasm-webp" target="_blank" rel="noopener">github</a>）</p>
+<p>找不到原作者的online demo ，我给大家复制一份<a href="http://blog.pasico.cn/projects/wasm-webp/" target="_blank" rel="noopener">online demo</a>:</p>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>我将要给大家展示的一个小demo，是一个已经成功在chrome 和firefox 里面解码<code>webp</code>格式图片的demo。<br>（原因是）<a href="https://developers.google.com/speed/webp/docs/api" target="_blank" rel="noopener">libwebp</a> 已经基于<a href="https://zh.wikipedia.org/wiki/SDL" target="_blank" rel="noopener">SDL</a> 有了一些 <code>WASM</code> 实验性支持，这是<a href="https://emscripten.org/docs/" target="_blank" rel="noopener">emscripten</a>已经在 <code>canvas</code> 元素上所支持的。</p>
 <p>（只是基于<code>WASM</code>的解码工具）虽然已经工作得挺好了，但人们需要额外引入一些library 似乎还不够友好。通常还需要手动调用JavaScript function 去解码，如果想在css 里面使用就更难操作了。</p>
 <p>我非常兴奋地发现，<code>service worker</code> 里面可以使用 <code>WebAssembly</code>。（这样即使在css 里面也可以愉快地自动转码了）</p>
@@ -123,14 +124,17 @@
 <p>最后，放代码了！（我已经提前给大家放了，哈哈哈哈）<a href="https://github.com/kenchris/wasm-webp" target="_blank" rel="noopener">github</a>）</p>
 <h3 id="提醒"><a href="#提醒" class="headerlink" title="提醒"></a>提醒</h3><p>如果要玩离屏canvas（OffscreenCanvas），记得在浏览器里面开启实验性功能，具体不说了。</p>
 <p>（然后作者感谢了另外一个人，他建议webp 转码为BMP 格式，这是一个没有压缩算法的格式，大大简化了webp 转码的复杂度）</p>
-<h2 id="译者补充"><a href="#译者补充" class="headerlink" title="译者补充"></a>译者补充</h2><p>windows 编译方法，，，待续。。。</p>
+<h2 id="译者补充"><a href="#译者补充" class="headerlink" title="译者补充"></a>译者补充</h2><p>windows 编译方法，，，</p>
+<ul>
+<li>安装<a href="https://emscripten.org/docs/getting_started/downloads.html" target="_blank" rel="noopener">emscripten</a>，<a href="https://segmentfault.com/a/1190000014208777" target="_blank" rel="noopener">中文教程</a><br>国内安装可能有问题，自己想办法。</li>
+</ul>
 <h3 id="squoosh"><a href="#squoosh" class="headerlink" title="squoosh"></a>squoosh</h3><p><a href="https://squoosh.app/" target="_blank" rel="noopener">squoosh</a> 里面也有 service worker+wasm 的方案，其中webp 的wasm 文件只有98k，而上面作者编译出来是121k。<br>squoosh 还有其他转码的wasm 文件，另外有机会再说</p>
 
       
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker.html" data-id="cjx5fwzws0006usuinim9sxqa" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker.html" data-id="cjx5m20qz0007vkui9ic0v7hg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -207,7 +211,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/06/06/SLS.html" data-id="cjx5fwzwz0009usuixfez90io" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/06/06/SLS.html" data-id="cjx5m20r30009vkui2wp2gg01" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
@@ -270,7 +274,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/06/06/AudioManager.html" data-id="cjx5fwzwn0005usuicvjnlmz6" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/06/06/AudioManager.html" data-id="cjx5m20qx0006vkuiok8zz222" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
@@ -361,7 +365,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/05/08/miniprogram-richtext.html" data-id="cjx5fwzxp000iusuith9leeni" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/05/08/miniprogram-richtext.html" data-id="cjx5m20rr000ivkui38h8b9ni" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
@@ -421,7 +425,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/02/18/compress-scroll-data.html" data-id="cjx5fwzxa000eusuimcq1tsdj" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/02/18/compress-scroll-data.html" data-id="cjx5m20ri000evkuiuvfsjo0w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法-优化/">算法 优化</a></li></ul>
@@ -473,7 +477,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/12/28/react-quill-image-uploader.html" data-id="cjx5fwzy4000ousuikezhg0kq" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/12/28/react-quill-image-uploader.html" data-id="cjx5m20s0000mvkui9t27iy0v" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/quill/">quill</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
@@ -583,7 +587,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/12/19/a-login-feature.html" data-id="cjx5fwzx2000ausuiwkuirkpm" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/12/19/a-login-feature.html" data-id="cjx5m20r5000avkuikre90a7a" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/业务思考/">业务思考</a></li></ul>
@@ -638,7 +642,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/11/07/sad-for-NaN.html" data-id="cjx5fwzxx000musuieoe4nkeo" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/11/07/sad-for-NaN.html" data-id="cjx5m20s3000ovkuinxcfmy95" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
@@ -719,7 +723,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/08/15/miniprogram-swiper-effect.html" data-id="cjx5fwzxs000jusuia3mg5wk0" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/08/15/miniprogram-swiper-effect.html" data-id="cjx5m20rw000jvkuigmmr1opj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
@@ -787,7 +791,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/07/12/an-idea-about-build-vue-without-webpack.html" data-id="cjx5fwzx3000busuiaiaockm6" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/07/12/an-idea-about-build-vue-without-webpack.html" data-id="cjx5m20r7000bvkuikp59wsio" class="article-share-link">Share</a>
       
       
     </footer>
