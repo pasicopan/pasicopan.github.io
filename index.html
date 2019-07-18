@@ -86,55 +86,55 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文：<a href="https://medium.com/@kennethrohde/on-the-fly-webp-decoding-using-wasm-and-a-service-worker-33e519d8c21e" target="_blank" rel="noopener">On the fly WebP decoding using WASM and a Service Worker</a><br>简单翻译，不喜勿喷  </p>
-<h3 id="译者前言"><a href="#译者前言" class="headerlink" title="译者前言"></a>译者前言</h3><p>（原作者太牢骚，我先直接把他的成果github 地址放出来。<a href="https://github.com/kenchris/wasm-webp" target="_blank" rel="noopener">github</a>）</p>
-<p>找不到原作者的online demo ，我给大家复制一份<a href="http://blog.pasico.cn/projects/wasm-webp/" target="_blank" rel="noopener">online demo</a>:</p>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>我将要给大家展示的一个小demo，是一个已经成功在chrome 和firefox 里面解码<code>webp</code>格式图片的demo。<br>（原因是）<a href="https://developers.google.com/speed/webp/docs/api" target="_blank" rel="noopener">libwebp</a> 已经基于<a href="https://zh.wikipedia.org/wiki/SDL" target="_blank" rel="noopener">SDL</a> 有了一些 <code>WASM</code> 实验性支持，这是<a href="https://emscripten.org/docs/" target="_blank" rel="noopener">emscripten</a>已经在 <code>canvas</code> 元素上所支持的。</p>
-<p>（只是基于<code>WASM</code>的解码工具）虽然已经工作得挺好了，但人们需要额外引入一些library 似乎还不够友好。通常还需要手动调用JavaScript function 去解码，如果想在css 里面使用就更难操作了。</p>
-<p>我非常兴奋地发现，<code>service worker</code> 里面可以使用 <code>WebAssembly</code>。（这样即使在css 里面也可以愉快地自动转码了）</p>
-<p>（略过作者一些牢骚和失败的尝试）  </p>
-<p>以下是在firefox 成功渲染的截图<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/1.jpg" title="render in firefox"></p>
-<h3 id="（正式开始）创建一个library"><a href="#（正式开始）创建一个library" class="headerlink" title="（正式开始）创建一个library"></a>（正式开始）创建一个library</h3><p><code>libwebp</code> 真的只是一些简单的<code>C</code> API<br><a href="https://developers.google.com/speed/webp/docs/api" target="_blank" rel="noopener">libwebp api doc</a><br>接下来就简单了，我要做的只是暴露两个方法出来就好，分别是<code>decode()</code>和 <code>getInfo()</code>，后者（getInfo）是非常有必要的，因为我需要知道图片的体积才能够正确地初始buffers。巴拉巴拉。。。</p>
+        <p>原文：<a href="https://medium.com/@kennethrohde/on-the-fly-webp-decoding-using-wasm-and-a-service-worker-33e519d8c21e" target="_blank" rel="noopener">On the fly WebP decoding using WASM and a Service Worker</a><br>简单翻译，不喜勿喷</p>
+<h3 id="译者前言"><a href="#译者前言" class="headerlink" title="译者前言"></a>译者前言</h3><p>（原作者太牢骚，我先直接把他的成果 github 地址放出来。<a href="https://github.com/kenchris/wasm-webp" target="_blank" rel="noopener">github</a>）</p>
+<p>找不到原作者的 online demo ，我给大家复制一份<a href="http://blog.pasico.cn/projects/wasm-webp/" target="_blank" rel="noopener">online demo</a>:</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>我将要给大家展示的一个小 demo，是一个已经成功在 chrome 和 firefox 里面解码<code>webp</code>格式图片的 demo。<br>（原因是）<a href="https://developers.google.com/speed/webp/docs/api" target="_blank" rel="noopener">libwebp</a> 已经基于<a href="https://zh.wikipedia.org/wiki/SDL" target="_blank" rel="noopener">SDL</a> 有了一些 <code>WASM</code> 实验性支持，这是<a href="https://emscripten.org/docs/" target="_blank" rel="noopener">emscripten</a>已经在 <code>canvas</code> 元素上所支持的。</p>
+<p>（只是基于<code>WASM</code>的解码工具）虽然已经工作得挺好了，但人们需要额外引入一些 library 似乎还不够友好。通常还需要手动调用 JavaScript function 去解码，如果想在 css 里面使用就更难操作了。</p>
+<p>我非常兴奋地发现，<code>service worker</code> 里面可以使用 <code>WebAssembly</code>。（这样即使在 css 里面也可以愉快地自动转码了）</p>
+<p>（略过作者一些牢骚和失败的尝试）</p>
+<p>以下是在 firefox 成功渲染的截图<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/1.jpg" title="render in firefox"></p>
+<h3 id="（正式开始）创建一个-library"><a href="#（正式开始）创建一个-library" class="headerlink" title="（正式开始）创建一个 library"></a>（正式开始）创建一个 library</h3><p><code>libwebp</code> 真的只是一些简单的<code>C</code> API<br><a href="https://developers.google.com/speed/webp/docs/api" target="_blank" rel="noopener">libwebp api doc</a><br>接下来就简单了，我要做的只是暴露两个方法出来就好，分别是<code>decode()</code>和 <code>getInfo()</code>，后者（getInfo）是非常有必要的，因为我需要知道图片的体积才能够正确地初始 buffers。巴拉巴拉。。。</p>
 <img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/2.png" title="compiled">
-<p>需要用一些<code>CMake</code> 的工具还是有点麻烦的，还好我有朋友帮忙。（意思是编写<code>CMakeLists</code> 文件比较麻烦）<br>（以下是CMakeLists 截图）<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/3.png" title="CMakeLists"></p>
-<p>为了方便编译，我在<code>package.json</code> 加了编译命令，直接执行<code>npm run build</code> 就ok了。（mac，linux 用户福利，windows 用户我会在后文解析）<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/4.png" title="package json"></p>
-<p>现在我们已经有个library 了，我们还需要封装一下它，使之更好用，不需要人们去知道buffer，allocations 等麻烦的东西。</p>
-<p>接下来我们创建一个mini 的js library 叫做<code>webp-decoder.js</code>。这是一个可以在主线程和worker 线程都能使用的library。将会暴露出一个异步函数叫做<code>fetchWebPDecoder</code> 并返回一个<code>WebPDcoder</code> 对象和一些其他方法。</p>
-<p>（作者介绍了一些比较新的模块方法，和自己写了个加载js 文件的方法，不想翻译了）</p>
+<p>需要用一些<code>CMake</code> 的工具还是有点麻烦的，还好我有朋友帮忙。（意思是编写<code>CMakeLists</code> 文件比较麻烦）<br>（以下是 CMakeLists 截图）<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/3.png" title="CMakeLists"></p>
+<p>为了方便编译，我在<code>package.json</code> 加了编译命令，直接执行<code>npm run build</code> 就 ok 了。（mac，linux 用户福利，windows 用户我会在后文解析）<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/4.png" title="package json"></p>
+<p>现在我们已经有个 library 了，我们还需要封装一下它，使之更好用，不需要人们去知道 buffer，allocations 等麻烦的东西。</p>
+<p>接下来我们创建一个 mini 的 js library 叫做<code>webp-decoder.js</code>。这是一个可以在主线程和 worker 线程都能使用的 library。将会暴露出一个异步函数叫做<code>fetchWebPDecoder</code> 并返回一个<code>WebPDcoder</code> 对象和一些其他方法。</p>
+<p>（作者介绍了一些比较新的模块方法，和自己写了个加载 js 文件的方法，不想翻译了）</p>
 <p>然后是开始写<code>service worker</code>的注册<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/5.png" title="service worker"></p>
 <p>然后是<code>webp-decoder.js</code> 的加载 <code>wasm.js</code> 的方法<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/6.png" title="webp decoder"></p>
 <img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/7.png" title="webpdecoder">
-<p>（重点知识终于来了，同时我深感自己翻译得很不好）<br><code>webpdecoder</code> 构造器需要一个<code>ArrayBuffer</code> 作为参数，我们将为此创建一个带类型的<code>array</code>，一个<code>Uint8Array</code> 作为<code>libwebp</code> 需要的<code>const uint8_t*</code> 指针。<br>我们需要把数据复制到<code>WebAssembly</code>的堆里面。具体做法就是使用<code>Emscripten</code> 提供的两个api <code>_malloc</code> 和<code>Module.HEAPU8.set()</code>，根据<code>byteLength</code> 去使用<code>_malloc</code> 申请需要的空间，然后使用<code>Module.HEAPU8.set()</code> 把数据复制过去。</p>
+<p>（重点知识终于来了，同时我深感自己翻译得很不好）<br><code>webpdecoder</code> 构造器需要一个<code>ArrayBuffer</code> 作为参数，我们将为此创建一个带类型的<code>array</code>，一个<code>Uint8Array</code> 作为<code>libwebp</code> 需要的<code>const uint8_t*</code> 指针。<br>我们需要把数据复制到<code>WebAssembly</code>的堆里面。具体做法就是使用<code>Emscripten</code> 提供的两个 api <code>_malloc</code> 和<code>Module.HEAPU8.set()</code>，根据<code>byteLength</code> 去使用<code>_malloc</code> 申请需要的空间，然后使用<code>Module.HEAPU8.set()</code> 把数据复制过去。</p>
 <img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/2.jpg" title="cwrap">
 <img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/9.png" title="cwrap">
-<p>使用<code>cwrap</code>，我很容易就能从C 里面拿到想要的数据，例如version, 图片尺寸，宽高等</p>
+<p>使用<code>cwrap</code>，我很容易就能从 C 里面拿到想要的数据，例如 version, 图片尺寸，宽高等</p>
 <img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/8.png" title="getInfo">
-<p>在js 方面，我们根据Emscripten <code>getInfo</code> 的结果，再一次初始化足够的内存空间</p>
+<p>在 js 方面，我们根据 Emscripten <code>getInfo</code> 的结果，再一次初始化足够的内存空间</p>
 <img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/10.png" title="cwrap">
-<p>C 的内部也会做一些分配（内存）的操作，并返回<code>uint8_t</code>的buffer 值，然后我们需要转成<code>Uint8ClampedArray</code> 给js 使用。因为<code>ImageData</code> 只能用<code>Clamped</code> array，所以我们只能转成<code>Uint8ClampedArray</code>。</p>
+<p>C 的内部也会做一些分配（内存）的操作，并返回<code>uint8_t</code>的 buffer 值，然后我们需要转成<code>Uint8ClampedArray</code> 给 js 使用。因为<code>ImageData</code> 只能用<code>Clamped</code> array，所以我们只能转成<code>Uint8ClampedArray</code>。</p>
 <img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/11.png" title="Clamped">
 <p>现在我们的代码就这样了。</p>
 <img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/12.png" title="decode">
-<p>解码后，我们将数据复制到js 这边，然后就可以释放原来的解码数据了</p>
-<p>解码后的数据并不是我们想要的，我们最后想要的其实是一个格式化为<code>image/png</code> 的<code>blob</code> 数据。我们还有一些小工作要做。我们创建一个的canvas，并使用相关api 进行转换。<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/13.png" title="toblob"><br>（如果想在worker 里面处理）我们可能需要一个叫做<a href="https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas" target="_blank" rel="noopener">OffscreenCanvas</a> 的实验性技术。具体chrome 和firefox 会有不同。</p>
-<p>好了！我们已经写好一个library 去解码 webp 图片！</p>
-<h3 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h3><p>看图吧，加载个图片，然后转为buffer，初始化解码器，使用canvas 转为blob，赋值给img 标签<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/14.png" title="use"></p>
-<p><code>service worker</code> 里面也类似，看图，注册好service worker，判断请求是不是一个webp 的GET 请求，是就拦截并另外进行下载和转码<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/15.png" title="use in service worker"></p>
-<p>（作者简单介绍了一下OffscreenCanvas 技术，不想翻译了）<br>（作者吐槽了一下，现在怎么都要用canvas 转一下才有效，好麻烦，希望以后有更简单的api，听说已经有提案了<a href="https://wicg.github.io/img-conversion/" target="_blank" rel="noopener">img-conversion</a>）</p>
+<p>解码后，我们将数据复制到 js 这边，然后就可以释放原来的解码数据了</p>
+<p>解码后的数据并不是我们想要的，我们最后想要的其实是一个格式化为<code>image/png</code> 的<code>blob</code> 数据。我们还有一些小工作要做。我们创建一个的 canvas，并使用相关 api 进行转换。<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/13.png" title="toblob"><br>（如果想在 worker 里面处理）我们可能需要一个叫做<a href="https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas" target="_blank" rel="noopener">OffscreenCanvas</a> 的实验性技术。具体 chrome 和 firefox 会有不同。</p>
+<p>好了！我们已经写好一个 library 去解码 webp 图片！</p>
+<h3 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h3><p>看图吧，加载个图片，然后转为 buffer，初始化解码器，使用 canvas 转为 blob，赋值给 img 标签<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/14.png" title="use"></p>
+<p><code>service worker</code> 里面也类似，看图，注册好 service worker，判断请求是不是一个 webp 的 GET 请求，是就拦截并另外进行下载和转码<br><img src="/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker/15.png" title="use in service worker"></p>
+<p>（作者简单介绍了一下 OffscreenCanvas 技术，不想翻译了）<br>（作者吐槽了一下，现在怎么都要用 canvas 转一下才有效，好麻烦，希望以后有更简单的 api，听说已经有提案了<a href="https://wicg.github.io/img-conversion/" target="_blank" rel="noopener">img-conversion</a>）</p>
 <p>最后，放代码了！（我已经提前给大家放了，哈哈哈哈）<a href="https://github.com/kenchris/wasm-webp" target="_blank" rel="noopener">github</a>）</p>
-<h3 id="提醒"><a href="#提醒" class="headerlink" title="提醒"></a>提醒</h3><p>如果要玩离屏canvas（OffscreenCanvas），记得在浏览器里面开启实验性功能，具体不说了。</p>
-<p>（然后作者感谢了另外一个人，他建议webp 转码为BMP 格式，这是一个没有压缩算法的格式，大大简化了webp 转码的复杂度）</p>
+<h3 id="提醒"><a href="#提醒" class="headerlink" title="提醒"></a>提醒</h3><p>如果要玩离屏 canvas（OffscreenCanvas），记得在浏览器里面开启实验性功能，具体不说了。</p>
+<p>（然后作者感谢了另外一个人，他建议 webp 转码为 BMP 格式，这是一个没有压缩算法的格式，大大简化了 webp 转码的复杂度）</p>
 <h2 id="译者补充"><a href="#译者补充" class="headerlink" title="译者补充"></a>译者补充</h2><p>windows 编译方法，，，</p>
 <ul>
-<li>安装<a href="https://emscripten.org/docs/getting_started/downloads.html" target="_blank" rel="noopener">emscripten</a>，<a href="https://segmentfault.com/a/1190000014208777" target="_blank" rel="noopener">中文教程</a><br>国内安装可能有问题，自己想办法。</li>
+<li>下载方法<a href="https://emscripten.org/docs/getting_started/downloads.html" target="_blank" rel="noopener">emscripten</a>，<a href="https://segmentfault.com/a/1190000014208777" target="_blank" rel="noopener">中文教程</a><br>国内使用命令行下载源代码可能有问题，可以直接下载官方已经打包好的 exe 文件，就在下载页的底部。</li>
 </ul>
-<h3 id="squoosh"><a href="#squoosh" class="headerlink" title="squoosh"></a>squoosh</h3><p><a href="https://squoosh.app/" target="_blank" rel="noopener">squoosh</a> 里面也有 service worker+wasm 的方案，其中webp 的wasm 文件只有98k，而上面作者编译出来是121k。<br>squoosh 还有其他转码的wasm 文件，另外有机会再说</p>
+<h3 id="squoosh"><a href="#squoosh" class="headerlink" title="squoosh"></a>squoosh</h3><p><a href="https://squoosh.app/" target="_blank" rel="noopener">squoosh</a> 里面也有 service worker+wasm 的方案，其中 webp 的 wasm 文件只有 98k，而上面作者编译出来是 121k。<br>squoosh 还有其他转码的 wasm 文件，另外有机会再说</p>
 
       
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker.html" data-id="cjx5m20qz0007vkui9ic0v7hg" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/06/20/On-the-fly-WebP-decoding-using-WASM-and-a-Service-Worker.html" data-id="cjy8ho4lm0006uouicfuf76j5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -211,7 +211,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/06/06/SLS.html" data-id="cjx5m20r30009vkui2wp2gg01" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/06/06/SLS.html" data-id="cjy8ho4lr0009uouiwufg1nbt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
@@ -274,7 +274,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/06/06/AudioManager.html" data-id="cjx5m20qx0006vkuiok8zz222" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/06/06/AudioManager.html" data-id="cjy8ho4lk0005uoui631j4qws" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
@@ -365,7 +365,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/05/08/miniprogram-richtext.html" data-id="cjx5m20rr000ivkui38h8b9ni" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/05/08/miniprogram-richtext.html" data-id="cjy8ho4mb000iuouiz8xhym34" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
@@ -425,7 +425,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2019/02/18/compress-scroll-data.html" data-id="cjx5m20ri000evkuiuvfsjo0w" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2019/02/18/compress-scroll-data.html" data-id="cjy8ho4m9000fuouil0hm70rq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法-优化/">算法 优化</a></li></ul>
@@ -460,7 +460,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>a plugin for react-quill which can upload multi image and remember the image url histroy</p>
-<img src="/2018/12/28/react-quill-image-uploader/screenshot.jpg" title="screenshot">
+<p><img src="https://github.com/pasicopan/react-quill-image-uploader/raw/dev/screenshot.jpg" alt="screenshot"></p>
 <p>github: <a href="https://github.com/pasicopan/react-quill-image-uploader" target="_blank" rel="noopener">https://github.com/pasicopan/react-quill-image-uploader</a></p>
 <ul>
 <li>click or drag an image into “click or drag” area, then plugin will call uploadCallback and wait for the promise</li>
@@ -470,14 +470,14 @@
 </ul>
 <h1 id="online-demo"><a href="#online-demo" class="headerlink" title="online demo"></a>online demo</h1><p><a href="http://blog.pasico.cn/projects/react-quill-image-uploader/" target="_blank" rel="noopener">demo</a></p>
 <h1 id="how-to-install"><a href="#how-to-install" class="headerlink" title="how to install"></a>how to install</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i react-quill-image-uploader</span><br><span class="line"><span class="comment">// yarn add react-quill-image-uploader</span></span><br></pre></td></tr></table></figure>
-<h1 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h1><p>demo: ./demo/index.html <a href="https://github.com/pasicopan/react-quill-image-uploader/blob/dev/demo/index.html" title="Demo" target="_blank" rel="noopener">Demo</a></p>
+<h1 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h1><p>demo: ./demo/index.html</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ReactQuill <span class="keyword">from</span> <span class="string">"react-quill"</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">"react-quill/dist/quill.snow.css"</span></span><br><span class="line"><span class="keyword">import</span> ReactQuillImageUploader, &#123;</span><br><span class="line">  saveImageSrc</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">"react-quill-image-uploader"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  modules = &#123;</span><br><span class="line">    toolbar: &#123;</span><br><span class="line">      container: [[<span class="string">"bold"</span>, <span class="string">"italic"</span>, <span class="string">"underline"</span>, <span class="string">"strike"</span>], [<span class="string">"image"</span>]],</span><br><span class="line">      handlers: &#123;</span><br><span class="line">        image: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> &#123; clientX, <span class="attr">y</span>: clientY &#125; = <span class="built_in">window</span>.event</span><br><span class="line">          <span class="keyword">const</span> position = &#123; <span class="attr">x</span>: clientX, <span class="attr">y</span>: clientY &#125; <span class="comment">// position the plugin to show</span></span><br><span class="line">          <span class="keyword">this</span>.ReactQuillImageUploaderRef &amp;&amp;</span><br><span class="line">            <span class="keyword">this</span>.ReactQuillImageUploaderRef.toggle(position) <span class="comment">// show or hide the plugin</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    <span class="keyword">this</span>.quill = <span class="keyword">this</span>.quillRef &amp;&amp; <span class="keyword">this</span>.quillRef.getEditor()</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; <span class="attr">quill</span>: <span class="keyword">this</span>.quill &#125;)</span><br><span class="line">    <span class="comment">// import &#123;saveImageSrc&#125; from 'react-quill-image-uploader', call saveImageSrc('https://iph.href.lu/100x100')</span></span><br><span class="line">    <span class="comment">// or</span></span><br><span class="line">    <span class="comment">// &lt;script&gt; call</span></span><br><span class="line">    ReactQuillImageUploader.saveImageSrc(<span class="string">"https://iph.href.lu/100x100"</span>) <span class="comment">// save image url to plugin history manually</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; modules, className = <span class="string">""</span>, placeholder = <span class="string">"write here.."</span> &#125; = <span class="keyword">this</span>.props</span><br><span class="line">    <span class="keyword">const</span> &#123; quill = &#123;&#125; &#125; = <span class="keyword">this</span>.state</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;ReactQuill</span><br><span class="line">          ref=&#123;el =&gt; &#123;</span><br><span class="line">            <span class="keyword">this</span>.quillRef = el</span><br><span class="line">          &#125;&#125;</span><br><span class="line">          placeholder=&#123;placeholder&#125;</span><br><span class="line">          modules=&#123;modules || <span class="keyword">this</span>.modules&#125;</span><br><span class="line">          className=&#123;className&#125;</span><br><span class="line">        /&gt;</span><br><span class="line">        &lt;ReactQuillImageUploader</span><br><span class="line">          ref=&#123;el =&gt; &#123;</span><br><span class="line">            <span class="keyword">this</span>.ReactQuillImageUploaderRef = el</span><br><span class="line">          &#125;&#125;</span><br><span class="line">          quill=&#123;<span class="keyword">this</span>.state.quill&#125;</span><br><span class="line">          uploadCallback=&#123;uploadImageCallBack&#125;</span><br><span class="line">        /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">async function uploadImageCallBack(file) &#123;</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ post file</span></span><br><span class="line"><span class="regexp">  return Promise.resolve(&#123;</span></span><br><span class="line"><span class="regexp">    data: &#123;</span></span><br><span class="line"><span class="regexp">      link: "https:/</span><span class="regexp">/iph.href.lu/</span><span class="number">200</span>x200<span class="string">"</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;)</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
 
       
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/12/28/react-quill-image-uploader.html" data-id="cjx5m20s0000mvkui9t27iy0v" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/12/28/react-quill-image-uploader.html" data-id="cjy8ho4mi000muouietzc5h13" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/quill/">quill</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
@@ -587,7 +587,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/12/19/a-login-feature.html" data-id="cjx5m20r5000avkuikre90a7a" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/12/19/a-login-feature.html" data-id="cjy8ho4lu000auoui47yx7vun" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/业务思考/">业务思考</a></li></ul>
@@ -642,7 +642,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/11/07/sad-for-NaN.html" data-id="cjx5m20s3000ovkuinxcfmy95" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/11/07/sad-for-NaN.html" data-id="cjy8ho4mj000ououiluxnsbni" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
@@ -723,7 +723,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/08/15/miniprogram-swiper-effect.html" data-id="cjx5m20rw000jvkuigmmr1opj" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/08/15/miniprogram-swiper-effect.html" data-id="cjy8ho4md000juoui5t7yz7fx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小程序/">小程序</a></li></ul>
@@ -791,7 +791,7 @@
       <h3>原创文章，转载必须声明出处!</h3>
     </div>
     <footer class="article-footer">
-      <a data-url="http://paisco.cn/2018/07/12/an-idea-about-build-vue-without-webpack.html" data-id="cjx5m20r7000bvkuikp59wsio" class="article-share-link">Share</a>
+      <a data-url="http://paisco.cn/2018/07/12/an-idea-about-build-vue-without-webpack.html" data-id="cjy8ho4ly000buouiqz9eof4s" class="article-share-link">Share</a>
       
       
     </footer>
